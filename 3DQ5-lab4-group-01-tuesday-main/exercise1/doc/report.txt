@@ -1,0 +1,28 @@
+The reasoning:
+	The core design for this exercise is based on two dual-port RAMs, where each RAM contains 512 elements. Each element is an 8-bit signed integer, and the arrays in the RAM are initially populated using memory initialization files (MIFs). The goal is to perform specific conditional arithmetic operations on these arrays and store the results back into the DP-RAM modules.
+
+For the top half of the memory (indices 0-255):
+If an element in the first array (W) is negative, then the corresponding element in the output array Y is set to the value of the second array (X) minus 1, and the output array Z is set to W plus 1. Otherwise, Y is set to W minus 1, and Z is set to X plus 1.
+
+For the bottom half of the memory (indices 256-511):
+If the element in X is positive (including zero), then Y is set to the sum of W and X, and Z is set to the difference between W and X. Otherwise, Y is set to X minus W, and Z is set to X plus W.
+
+The output arrays Y and Z overwrite the corresponding elements in the RAM for each memory location after one clock cycle.
+
+Total Amount of Registers:
+Enum logic [1:0] {
+S_READ_WRITE, //UTL 
+S_LAST_WRITE, // SYS 
+S_IDLE //idle status 
+} state; 3 bit
+logic [8:0] read_address, write_address; 18 bit
+logic write_enable_b[0] <= 1'b0; 1 bit
+logic write_enable_b[1] <= 1'b0; 1 bit
+total reg = 23 
+
+Timing Analysis: 
+The critical path involves address decoding and data writing in dual-port RAMs. This means the system must first decode the address (held in the address registers), determine the correct memory location, and then pass the data (held in the data input registers) to the appropriate memory block.
+RAM Access Delay: The dual-port RAM design requires synchronization between the address and data paths. Any delay in updating the write_address or propagating the address to the RAM blocks will delay the writing of data.
+Register-to-Register Delay: The delay from porta_address_reg0 to portb_datain_reg0 involves the time taken to propagate the address signal through the address decoder and the data signal through the write data path.
+
+The critical path involves the address setup in the dual-port RAM's address registers (porta_address_reg0) and the subsequent propagation of the write address to the data input registers (portb_datain_reg0). This path reflects the timing dependency between the address decoding and the data write process. Any delay in address decoding directly impacts the speed of the data being written to memory. The synchronization between address and data input determines the maximum operating frequency, making this the key bottleneck in the design.

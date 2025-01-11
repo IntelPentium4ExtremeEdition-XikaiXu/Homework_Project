@@ -1,0 +1,23 @@
+Counter Design
+The counter was modified to display two digits in base 6 (00 to 55), using 6 bits for control:
+Counting positive: Rolls over from 00 to 55 and counting Down: Rolls under from 55 to 00. By using 2 separate parameters to drive to different 7-sigment display, we can make a senary through an always_ff@ loop. Countering up and down was controlled with a parameter called “direction”, with a && gate to decide whether + or – on the first digit. Of course, the initial value needs to be between 55 or 00.
+
+Push-Button Control
+Each button controls specific aspects of the counter's functionality:
+
+Button 0: When pressed, it toggles the stop_count bit. This allows the counter to either stop or resume counting. Additionally, if the button33 bit is 1 (indicating that Button 3 has been pressed before), it resets the button33 bit back to 0. This ensures that the counter will only load the value 33 once when the button33 bit is set.
+Button 1: Sets the direction bit to 0, which controls the counter to count upwards.
+Button 2: Sets the direction bit to 1, which controls the counter to count downwards.
+Button 3: Sets the button33 bit to 1. When this bit is set, and the counter is stopped (controlled by Button 0), the counter will be loaded with the value 33 in base-6. After the loading is complete, the counter will continue counting based on the value of the direction bit.
+
+LED Control Logic
+The behavior of the green LEDs has been updated as follows:
+Green LED 8: Controlled using XOR logic over switches 15 to 11. It lights up if there is an odd number of 1s in this range.
+Green LED 7: Controlled using NOR logic over switches 15 to 11. It lights up only if all switches in this range are 0 (none of them are high).
+Green LED 6: Controlled by an AND operation over switches 15 to 11. It lights up only if all switches in this range are high (1).
+Green LED 5: Controlled by an AND operation over switches 10 to 4. This LED will light up only if all switches in this range are high.
+Green LED 4: Controlled by a NOR operation over switches 10 to 4. This LED will light up only if all switches in this range are low (0).
+Green LED 3: Controlled using NXOR (XNOR) logic over switches 10 to 4. This means that LED 3 will light up if the number of low bits in this range is even, since NXOR outputs 1 when both inputs are the same.
+Green LED 2: Controlled using NXOR (XNOR) logic between switches 3 and 2. It lights up when switches 3 and 2 are identical (both high or both low).
+Green LED 1: Controlled using XOR logic between switches 1 and 0. It lights up when switches 1 and 0 are different (one high, the other low).
+Green LED 0: This LED has a specific condition based on the state of switches 3 down to 0. It lights up when the switch configuration is 1110, 1101, 1011, or 0111. This condition is checked using a series of logical OR and AND operations that detect any of these four patterns.

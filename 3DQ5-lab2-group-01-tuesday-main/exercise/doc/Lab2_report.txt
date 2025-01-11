@@ -1,0 +1,16 @@
+Lab 2 Report
+
+Case Conversion with Shift Keys: The FSM was modified to track the mode (uppercase or lowercase) based on the state of the shift keys. The left-shift key toggles the mode to uppercase, while the right-shift key resets it to lowercase. A 1-bit register was introduced to store the current mode. When a letter key ('a' to 'z') is typed, the FSM checks the mode and uses the appropriate address in the ROM to convert the PS/2 make code into the corresponding LCD character code.
+
+Uppercase Mode: Activated when the left-shift key is pressed. The FSM stores the uppercase version of a typed letter in the LCD ROM.
+
+Lowercase Mode: Default state or activated by the right-shift key. The FSM stores the lowercase version of a typed letter.
+
+The FSM ensures that after a full line of characters is displayed, any new key press initiates the processing of the next line.
+Tracking the Position of '9' and '0': Special functionality was added to track the positions of the characters '9' and '0' in the displayed string:
+
+Top Line - Character '9': After the top line (16 characters) is displayed, the FSM scans the string to find the most significant occurrence of the character '9'. If '9' is present, its most significant position is displayed on the two rightmost 7-segment displays in BCD format.
+
+Bottom Line - Character '0': When the bottom line is displayed, the FSM similarly tracks the least significant occurrence of the character '0' and displays its position on the same 7-segment displays.
+
+Seven-Segment Display Integration: The FSM interacts with the 7-segment displays to show the position of the most significant '9' on the top line and the least significant '0' on the bottom line. The two displays are updated after each line is displayed and cleared upon pressing any new key.

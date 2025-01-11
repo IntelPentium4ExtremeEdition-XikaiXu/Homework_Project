@@ -1,0 +1,29 @@
+The module is designed to test a Static Random Access Memory (SRAM) using an automated procedure called BIST. The key functionality of this BIST module is:
+Writing a test pattern (derived from the address) to the SRAM.
+Reading back the data from the SRAM.
+Comparing the read data with the expected data.
+Detecting mismatches if the read data does not match the expected value, signaling a potential memory error.
+The test works by writing the inverted address into each memory location. After writing, the BIST engine reads back the data, computes the expected value (based on the address), and checks if the memory read matches this expected value.
+
+Key Components & Operations:
+Finite State Machine (FSM):
+The FSM controls the testing process, switching between states like:
+Idle state: Waiting for the BIST start signal.
+Write cycle: Writing data (inverted address) to the memory.
+Read cycle: Reading data from the memory and comparing it to the expected value.
+Delay states: These are inserted between read and write operations to meet memory timing constraints.
+Address and Data Operations:
+The BIST_address holds the current memory address.
+BIST_write_data is the data written to memory, which is simply the inverted address.
+BIST_expected_data is the expected value during read-back. It is derived from the address (incremented or decremented) and inverted.
+
+Design Modifications:
+
+The BIST engine has been modified to perform two test sessions:
+Even Memory Locations: During the first session, the 128k even locations of the external SRAM are written with the bitwise complement of the lower 16 bits of the address (e.g., writing FFFF to address 00000, FFFD to 00002, etc.). The write is followed by reading the same locations to verify the written data.
+Odd Memory Locations: In the second session, the 128k odd locations are written with the bitwise complement of the address in reverse order, starting from the highest odd location (3FFFF), with reads conducted in the same reverse order.
+
+Key Changes:
+Addressing Logic: The address sequence for writing and reading to the SRAM is updated for even and odd locations. The even locations use an increasing order, while odd locations use a decreasing order for both writing and reading operations.
+Data Pattern: The data pattern written to each location is based on the bitwise complement of the address, ensuring varied data values across the SRAM.
+Two-Phase Verification: The test is split into two distinct phases—one for even and one for odd addresses. This separation allows thorough testing of all SRAM locations.

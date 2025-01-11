@@ -1,0 +1,41 @@
+Total register: 409 
+logic [17:0] even_pixel_counter; 18
+state_type state; 5
+logic [3:0] PB_pushed; 4 
+logic [7:0] VGA_red, VGA_green, VGA_blue; 24
+logic [9:0] pixel_X_pos; 10
+logic [9:0] pixel_Y_pos; 10
+logic [17:0] SRAM_address; 18
+logic [17:0] SRAM_addressR; 18
+logic [17:0] SRAM_addressEG; 18
+logic [17:0] SRAM_addressEB; 18
+logic [17:0] SRAM_addressOG; 18
+logic [17:0] SRAM_addressOB; 18
+logic cluster; 1 
+logic [15:0] SRAM_write_data; 16
+logic SRAM_we_n; 1
+logic [15:0] SRAM_read_data; 16
+logic SRAM_ready; 1 
+logic [15:0] VGA_sram_data[4:0]; 16
+logic [7:0] Buffer_G; 8
+logic [2:0] rect_row_count;  3
+logic [2:0] rect_col_count;  3
+logic [5:0] rect_width_count; 6
+logic [4:0] rect_height_count; 5
+logic [2:0] color; 3 
+logic resetn; 1
+logic [15:0] SRAM_write_data_buf; 16
+logic [7:0] nVGA_R; 8
+logic [7:0] nVGA_G; 8 
+logic [7:0] nVGA_B; 8
+
+logic [9:0] H_Cont; 10
+logic [9:0] V_Cont; 10
+logic [15:0] clock_1kHz_div_count; 16
+logic clock_1kHz, clock_1kHz_buf; 2
+logic [3:0] push_button_status; 4
+logic [3:0] push_button_status_buf; 4
+total feed the 409 registers 
+critical path: The critical path in this Verilog design focuses on the coordination between SRAM data read/write and the VGA display update processes. The path begins with the SRAM write operation, triggered by the push button (PB_pushed), where pixel data is sequentially written to SRAM in the S_FILL_SRAM_* states. This involves calculating pixel addresses for RGB components and writing the data based on the FSM transitions, which rely on the even_pixel_counter and rectangle dimensions. After the SRAM is filled, the VGA reads the pixel data during the S_FETCH_PIXEL_DATA_* states, where it alternates between even and odd pixel data using cluster-based logic. The pixel coordinates (pixel_X_pos, pixel_Y_pos) trigger the correct SRAM read addresses. The VGA must receive data within a single pixel clock cycle, synchronized to the divided 25 MHz clock derived from the 50 MHz input. Thus, the critical path spans from SRAM address computation, through data read/write operations, to VGA pixel updates, relying heavily on timely FSM transitions and SRAM access synchronization.
+Register used in the TFSM: 
+In the FSM, several key registers are used to manage state transitions and data operations. The state register tracks the current state, switching between states like S_IDLE, S_FILL_SRAM_*, and S_FETCH_PIXEL_DATA_*. Registers such as rect_row_count, rect_col_count, rect_width_count, and rect_height_count are responsible for keeping track of the current rectangle's position and size, guiding how pixel data is written to the SRAM. The SRAM_address and related registers (SRAM_addressR, SRAM_addressEG, SRAM_addressEB, SRAM_addressOG, SRAM_addressOB) maintain the addresses for reading and writing RGB pixel data, ensuring proper synchronization with the VGA. The even_pixel_counter manages the pixel address offset, aiding in the handling of even and odd pixels. Additionally, SRAM_write_data and SRAM_read_data hold the data being written to or read from the SRAM, while VGA_sram_data and Buffer_G store pixel color values before sending them to the VGA. Lastly, the Enable register synchronizes the 50 MHz clock signal for the VGA updates. All of these registers work together to control the flow of data between the SRAM and the VGA display in accordance with the FSM¡¯s state transitions. In this design, different components introduce varying levels of latency, which need to be managed for the system to function smoothly. The SRAM has a 2-clock cycle latency for both read and write operations. This means that when the FSM issues a read or write command to the SRAM, it takes two clock cycles before the requested operation completes, which is a key consideration during state transitions, especially in the pixel-fetching process for the VGA.

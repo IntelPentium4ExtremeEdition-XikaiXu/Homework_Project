@@ -1,0 +1,30 @@
+Lab 3 Report
+The implemented code effectively captures numeric key presses ('0' to '9') from the PS/2 keyboard, maintains a count of how many keys have been pressed since the last reset or power-up, and measures how many video frames have elapsed since the last key press. Two messages are displayed on the screen:
+
+PRV <D> <PP> <FFF>: Displays the last numeric key pressed (<D>), the total count of numeric keys pressed since the last reset in BCD format (<PP>), and the number of frames passed since the last key press in BCD format (<FFF>).
+MAX <D> <PP> <FFF>: Displays the maximum number of frames passed until the next numeric key press, along with the corresponding key and counts.
+Register Usage Analysis
+
+The code utilizes a total of 120 registers, allocated for various functionalities. Below is a detailed analysis of the register usage:
+PS2_code_ready_buf (1 register): Used to indicate when the PS/2 code is ready to be processed.
+PS2_reg (8 registers): Stores the received PS/2 codes, allowing the system to recognize which key was pressed.
+delay_X_pos (3 registers): Used for controlling the display position of characters on the screen.
+units_digit (5 registers): Represents the BCD value of the units digit for displaying the count of keys pressed.
+tens_digit (5 registers): Represents the BCD value of the tens digit for displaying the count of keys pressed.
+clock_div_count (25 registers): Manages clock division to synchronize the processing speed.
+one_frame_clock (1 register): Tracks whether a single frame has passed.
+one_frame_clock_buf (1 register): Buffers the single frame clock status.
+counter (10 registers): Counts the total number of numeric keys pressed since the last reset.
+frame_units (5 registers): BCD representation of the frame count's units digit.
+frame_tens (5 registers): BCD representation of the frame count's tens digit.
+frame_hundreds (5 registers): BCD representation of the frame count's hundreds digit.
+comparator (1 register): Compares the current frame count with previous values to determine maximums.
+max_frame (10 registers): Holds the maximum frame count recorded since the last key press.
+max_tens_digit (5 registers): BCD representation of the maximum frame count's tens digit.
+max_units_digit (5 registers): BCD representation of the maximum frame count's units digit.
+max_frame_units (5 registers): Holds the BCD representation of the maximum frame count's units digit.
+max_frame_tens (5 registers): Holds the BCD representation of the maximum frame count's tens digit.
+max_frame_hundreds (5 registers): Holds the BCD representation of the maximum frame count's hundreds digit.
+Additionally, there are 10 registers dedicated to represent the states
+
+This analysis indicates efficient use of registers while adhering to the design specifications. The design is optimized for counting and displaying information based on user input from the PS/2 keyboard.
