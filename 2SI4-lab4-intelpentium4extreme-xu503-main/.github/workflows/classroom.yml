@@ -1,0 +1,30 @@
+name: Autograding Tests
+'on':
+- push
+- workflow_dispatch
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Test Lab 4
+      id: test-lab-4
+      uses: education/autograding-command-grader@v1
+      with:
+        test-name: Test Lab 4
+        setup-command: chmod -R +xrw *; make clean; make
+        command: make test
+        timeout: 1
+    - name: Autograding Reporter
+      uses: education/autograding-grading-reporter@v1
+      env:
+        TEST-LAB-4_RESULTS: "${{steps.test-lab-4.outputs.result}}"
+      with:
+        runners: test-lab-4
