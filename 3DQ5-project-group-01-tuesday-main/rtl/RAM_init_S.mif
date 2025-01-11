@@ -1,0 +1,90 @@
+-- Copyright (C) 2019  Intel Corporation. All rights reserved.
+-- Your use of Intel Corporation's design tools, logic functions 
+-- and other software and tools, and any partner logic 
+-- functions, and any output files from any of the foregoing 
+-- (including device programming or simulation files), and any 
+-- associated documentation or information are expressly subject 
+-- to the terms and conditions of the Intel Program License 
+-- Subscription Agreement, the Intel Quartus Prime License Agreement,
+-- the Intel FPGA IP License Agreement, or other applicable license
+-- agreement, including, without limitation, that your use is for
+-- the sole purpose of programming logic devices manufactured by
+-- Intel and sold by Intel or its authorized distributors.  Please
+-- refer to the applicable agreement for further details, at
+-- https://fpgasoftware.intel.com/eula.
+
+-- Quartus Prime generated Memory Initialization File (.mif)
+
+WIDTH=32;
+DEPTH=128;
+
+ADDRESS_RADIX=UNS;
+DATA_RADIX=HEX;
+
+CONTENT BEGIN
+	0    :   05000000;
+	1    :   05010000;
+	2    :   05020000;
+	3    :   05030000;
+	4    :   05040000;
+	5    :   05050000;
+	6    :   05060000;
+	7    :   05070000;
+	8    :   05080000;
+	9    :   05090000;
+	10   :   050A0000;
+	11   :   050B0000;
+	12   :   050C0000;
+	13   :   050D0000;
+	14   :   050E0000;
+	15   :   050F0000;
+	16   :   05100000;
+	17   :   05110000;
+	18   :   05120000;
+	19   :   05130000;
+	20   :   05140000;
+	21   :   05150000;
+	22   :   05160000;
+	23   :   05170000;
+	24   :   05180000;
+	25   :   05190000;
+	26   :   051A0000;
+	27   :   051B0000;
+	28   :   051C0000;
+	29   :   051D0000;
+	30   :   051E0000;
+	31   :   051F0000;
+	32   :   00200000;
+	33   :   00210000;
+	34   :   00220000;
+	35   :   00230000;
+	36   :   00240000;
+	37   :   00250000;
+	38   :   00260000;
+	39   :   00270000;
+	40   :   00280000;
+	41   :   00290000;
+	42   :   002A0000;
+	43   :   002B0000;
+	44   :   002C0000;
+	45   :   002D0000;
+	46   :   002E0000;
+	47   :   002F0000;
+	48   :   00300000;
+	49   :   00310000;
+	50   :   00320000;
+	51   :   00330000;
+	52   :   00340000;
+	53   :   00350000;
+	54   :   00360000;
+	55   :   00370000;
+	56   :   00380000;
+	57   :   00390000;
+	58   :   003A0000;
+	59   :   003B0000;
+	60   :   003C0000;
+	61   :   003D0000;
+	62   :   003E0000;
+	63   :   003F0000;
+	[64..127]  :   0;
+END;
