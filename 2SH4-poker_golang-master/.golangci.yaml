@@ -1,0 +1,22 @@
+run:
+  tests: false
+linters:
+  enable-all: true
+  disable:
+    - dupl
+    - funlen
+    - gochecknoglobals
+    - gomnd
+    - cyclop
+    - gocognit
+    - ireturn
+    - varnamelen
+linters-settings:
+  govet:
+    check-shadowing: true
+  maligned:
+    suggest-new: true
+  misspell:
+    locale: US
+  goerr113:
+    ignore-tests: true
